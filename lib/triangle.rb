@@ -1,28 +1,58 @@
 class Triangle
   # write code here
-    attr_accessor :length1, :length2, :length3
+    attr_accessor :leng1, :leng2, :leng3
  
-    def initialize(length1,length2, length3)
+    def initialize(leng1,leng2, leng3)
 
-      @length1 = 0
-      @length2 = 0
-      @length3 = 0
+      @leng1 = leng1
+      @leng2 = leng2
+      @leng3 = leng3
+      raise TriangleError, "Ivalid" unless valid_triangle?
+
       
     end
 
+    # def kind
+    #  if length1 + length2 > length3
+    #    if length1 == length2 && length2 == length3
+    #      "Equilateral"
+    #    elsif side1 == side2 || side2 == side3 || side3 == side1
+    #    else 
+    #      "Scalene"
+    #    end
+    #   else
+    #     raise TriangleError
+    #  end
+    # end
+
     def kind
-     if length1 + length2 > length3
-       if length1 == length2 && length2 == length3
-         "Equilateral"
-       elsif  length1 == length2 && length1 != length3 || length2 == length3 && length2 != length1 || length3 == length1 && length3 != length2
-         "Isosceles"
-       else 
-         "Scalene"
-       end
-      else
-        raise TriangleError
-     end
+      return :equilateral if equilateral?
+      return :isosceles if isosceles?
+      return :scalene if scalene?
     end
+  #private methods
+    private
+  
+    def valid_triangle?
+      length = [leng1, leng2, leng3]
+      return false if length.include?(0)
+      length.sort!
+      length[0] + length[1] > length[2]
+    end
+  
+    def equilateral?
+      leng1 == leng2 && leng2 == leng3
+    end
+  
+    def isosceles?
+      leng1 == leng2 || leng2 == leng3 || leng3 == leng1
+    end
+  
+    def scalene?
+      leng1 != leng2 && leng2 != leng3 && leng3 != leng1
+    end
+
+
   
   class TriangleError < StandardError
     # triangle error code
